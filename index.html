@@ -9,7 +9,7 @@
   a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   img { max-width: 100%; }
 </style>
-<title>لقطة — Laqta</title>
+<title>لقطة — La2ta</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1102,6 +1102,73 @@
     transform: translateY(0);
   }
 
+  /* Mobile preview cards (shown instead of phone mockup on small screens) */
+  .onelink-mobile-preview {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .mp-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.25s ease;
+  }
+
+  .mp-card:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.35);
+  }
+
+  .mp-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .mp-card.featured {
+    background: rgba(201,168,76,0.12);
+    border-color: rgba(201,168,76,0.4);
+  }
+
+  .mp-card.featured .mp-card-icon {
+    background: var(--gold);
+  }
+
+  .mp-card-text { flex: 1; }
+
+  .mp-card-title {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .mp-card-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .mp-card-arrow {
+    font-size: 14px;
+    color: rgba(255,255,255,0.25);
+    flex-shrink: 0;
+  }
+
   /* ─── RESPONSIVE ─── */
 
   /* Tablet — up to 1024px */
@@ -1173,18 +1240,20 @@
       padding: 15px 24px;
     }
 
-    /* ONE LINK */
+    /* ONE LINK — mobile overhaul */
     .onelink-section { padding: 64px 20px; }
     .onelink-inner {
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 40px;
     }
     .onelink-headline { font-size: clamp(26px, 7vw, 38px); }
-    .phone-wrap { width: 240px; margin: 0 auto; }
     .onelink-link-demo {
       width: 100%;
       justify-content: center;
     }
+    /* Hide phone mockup, show flat cards */
+    .onelink-right { display: none; }
+    .onelink-mobile-preview { display: flex !important; }
 
     /* PAIN */
     .pain-section { padding: 64px 20px; }
@@ -1273,7 +1342,7 @@
   <div class="nav-logo">
     <span class="nav-logo-ar">لقطة</span>
     <div class="nav-dot"></div>
-    <span class="nav-logo-en">Laqta</span>
+    <span class="nav-logo-en">La2ta</span>
   </div>
   <a href="https://wa.me/201024906213?text=أنا%20مهتم%20بلقطة%20وعايز%20أعرف%20أكثر" class="nav-cta" target="_blank">ابدأ الآن</a>
 </nav>
@@ -1380,7 +1449,7 @@
 
       <div class="onelink-link-demo reveal">
         <span class="link-icon">🔗</span>
-        <span class="link-text">laqta.app/<span style="opacity:0.6">ahmed-photography</span></span>
+        <span class="link-text">la2ta.app/<span style="opacity:0.6">ahmed-photography</span></span>
         <span class="link-copy">نسخ</span>
       </div>
 
@@ -1406,6 +1475,51 @@
           <span class="cap-text"><span>الأسئلة الشائعة</span> — إجابات جاهزة بدون ردود يدوية</span>
         </div>
       </div>
+
+      <!-- Mobile-only flat preview (replaces phone mockup on small screens) -->
+      <div class="onelink-mobile-preview">
+        <div class="mp-card">
+          <div class="mp-card-icon">🖼️</div>
+          <div class="mp-card-text">
+            <div class="mp-card-title">شوف أعمالي</div>
+            <div class="mp-card-sub">Portfolio · 48 photos</div>
+          </div>
+          <div class="mp-card-arrow">←</div>
+        </div>
+        <div class="mp-card">
+          <div class="mp-card-icon">💰</div>
+          <div class="mp-card-text">
+            <div class="mp-card-title">الأسعار والباكدجات</div>
+            <div class="mp-card-sub">يبدأ من 2,500 EGP</div>
+          </div>
+          <div class="mp-card-arrow">←</div>
+        </div>
+        <div class="mp-card">
+          <div class="mp-card-icon">📅</div>
+          <div class="mp-card-text">
+            <div class="mp-card-title">المواعيد المتاحة</div>
+            <div class="mp-card-sub">أقرب ميعاد: الجمعة ١٠ص</div>
+          </div>
+          <div class="mp-card-arrow">←</div>
+        </div>
+        <div class="mp-card featured">
+          <div class="mp-card-icon">✨</div>
+          <div class="mp-card-text">
+            <div class="mp-card-title">احجز جلستك دلوقتي</div>
+            <div class="mp-card-sub">بدون واتساب — بدون انتظار</div>
+          </div>
+          <div class="mp-card-arrow">←</div>
+        </div>
+        <div class="mp-card">
+          <div class="mp-card-icon">❓</div>
+          <div class="mp-card-text">
+            <div class="mp-card-title">الأسئلة الشائعة</div>
+            <div class="mp-card-sub">٨ إجابة جاهزة</div>
+          </div>
+          <div class="mp-card-arrow">←</div>
+        </div>
+      </div>
+
     </div>
 
     <div class="onelink-right reveal">
@@ -1415,7 +1529,7 @@
         <!-- URL bar -->
         <div class="phone-url-bar">
           <div class="url-dot"></div>
-          <span class="url-text">laqta.app/<span class="url-highlight">ahmed-photography</span></span>
+          <span class="url-text">la2ta.app/<span class="url-highlight">ahmed-photography</span></span>
         </div>
 
         <!-- Phone shell -->
@@ -1592,7 +1706,7 @@
     "شغلك يستاهل أحسن من واتساب وجداول إكسيل —<br>
     <span class="highlight">ركّز على اللقطة المثالية، واحنا نتكفل بالباقي.</span>"
   </p>
-  <p class="quote-sub reveal">لقطة · Laqta — Built for Egyptian Photographers</p>
+  <p class="quote-sub reveal">لقطة · La2ta — Built for Egyptian Photographers</p>
 </section>
 
 <!-- CTA SECTION -->
@@ -1653,7 +1767,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">
-    لقطة <span>· Laqta</span>
+    لقطة <span>· La2ta</span>
   </div>
   <div class="footer-dot"></div>
   <p class="footer-text">Made with ❤️ in Egypt — For Egyptian Photographers</p>
