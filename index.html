@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1A1714">
+<style>
+  /* Mobile touch improvements */
+  a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  img { max-width: 100%; }
+</style>
+<title>لقطة — Laqta</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF8F4;
+    --white: #FFFFFF;
+    --ink: #1A1714;
+    --ink-soft: #3D3830;
+    --ink-muted: #8C8478;
+    --gold: #C9A84C;
+    --gold-light: #E8D5A3;
+    --gold-pale: #F5EDD6;
+    --border: #E8E2D9;
+    --grain-opacity: 0.035;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Tajawal', 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: var(--grain-opacity);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(250, 248, 244, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232, 226, 217, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .nav-logo-ar {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .nav-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    align-self: center;
+  }
+
+  .nav-cta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--white);
+    background: var(--ink);
+    padding: 10px 22px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    padding: 100px 60px 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .eyebrow-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .eyebrow-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .hero-headline {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: clamp(42px, 5vw, 64px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.35s forwards;
+  }
+
+  .hero-headline .gold { color: var(--gold); }
+
+  .hero-sub-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--ink-muted);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+
+  .hero-body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--ink-soft);
+    max-width: 420px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.65s forwards;
+  }
+
+  .hero-body strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .cta-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--white);
+    padding: 16px 32px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-primary .wa-icon {
+    width: 18px;
+    height: 18px;
+    position: relative;
+    z-index: 1;
+    fill: currentColor;
+  }
+
+  .btn-secondary-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  /* ─── HERO RIGHT ─── */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero-right-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Decorative background for hero right */
+  .hero-bg-text {
+    position: absolute;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 260px;
+    color: rgba(255,255,255,0.03);
+    user-select: none;
+    letter-spacing: -10px;
+    line-height: 1;
+  }
+
+  .hero-card {
+    position: relative;
+    z-index: 2;
+    width: 320px;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .hero-card-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #2A2520 0%, #3D3530 40%, #1A1714 100%);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+
+  /* Simulated photo content */
+  .hero-card-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 60% 30%, rgba(201,168,76,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  }
+
+  .photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 20px 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  }
+
+  .photo-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 1px;
+    margin-bottom: 8px;
+  }
+
+  .photo-name {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  /* Floating badges */
+  .badge {
+    position: absolute;
+    background: var(--white);
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 3;
+  }
+
+  .badge-1 {
+    top: 15%;
+    right: -30px;
+    animation: float 4s ease-in-out infinite 1s;
+  }
+
+  .badge-2 {
+    bottom: 25%;
+    left: -40px;
+    animation: float 5s ease-in-out infinite 0.5s;
+  }
+
+  .badge-icon { font-size: 16px; }
+
+  .badge-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .badge-val {
+    font-size: 10px;
+    color: var(--ink-muted);
+  }
+
+  /* ─── PAIN SECTION ─── */
+  .pain-section {
+    padding: 120px 60px;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 60px;
+  }
+
+  .section-label-line {
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-label-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .pain-headline {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 600px;
+    margin-bottom: 16px;
+  }
+
+  .pain-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-muted);
+    margin-bottom: 72px;
+  }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .pain-card {
+    padding: 40px 32px;
+    border-left: 1px solid var(--border);
+    position: relative;
+    transition: background 0.3s ease;
+    cursor: default;
+  }
+
+  .pain-card:first-child { border-left: none; }
+
+  .pain-card:hover {
+    background: var(--gold-pale);
+  }
+
+  .pain-card:hover .pain-card-num {
+    color: var(--gold);
+  }
+
+  .pain-card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+  }
+
+  .pain-card-icon { font-size: 28px; margin-bottom: 16px; }
+
+  .pain-card-title {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .pain-card-body {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--ink-muted);
+  }
+
+  /* ─── SOLUTION / FEATURES ─── */
+  .features-section {
+    padding: 120px 60px;
+    background: var(--cream);
+  }
+
+  .features-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
+    align-items: end;
+  }
+
+  .features-headline {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 3.5vw, 42px);
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .features-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .feature-item {
+    background: var(--white);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .feature-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-item:hover::after { transform: scaleX(1); }
+  .feature-item:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.06); }
+
+  .feature-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .feature-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+
+  .feature-title {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .feature-body {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--ink-muted);
+  }
+
+  .feature-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-light);
+    padding: 3px 10px;
+    border-radius: 1px;
+  }
+
+  /* ─── QUOTE / SOCIAL PROOF ─── */
+  .quote-section {
+    background: var(--ink);
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-section::before {
+    content: '"';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 300px;
+    color: rgba(201, 168, 76, 0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quote-text {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 300;
+    font-size: clamp(22px, 3vw, 36px);
+    color: var(--white);
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-text .highlight {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .quote-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(255,255,255,0.4);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── ONE LINK SECTION ─── */
+  .onelink-section {
+    padding: 100px 60px;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .onelink-section::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .onelink-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .onelink-left {}
+
+  .onelink-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .onelink-eyebrow-line {
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .onelink-eyebrow-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .onelink-headline {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 3.5vw, 50px);
+    line-height: 1.25;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .onelink-headline .gold { color: var(--gold); }
+
+  .onelink-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 28px;
+  }
+
+  .onelink-body {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 40px;
+    max-width: 420px;
+  }
+
+  .onelink-body strong { color: var(--white); font-weight: 500; }
+
+  /* The fake link pill */
+  .onelink-link-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 14px 22px;
+    border-radius: 40px;
+    margin-bottom: 40px;
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .onelink-link-demo:hover {
+    background: rgba(201,168,76,0.18);
+    border-color: var(--gold);
+  }
+
+  .link-icon { font-size: 16px; }
+
+  .link-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.3px;
+  }
+
+  .link-copy {
+    font-size: 12px;
+    color: rgba(201,168,76,0.5);
+    margin-right: 4px;
+  }
+
+  /* Capabilities list */
+  .onelink-caps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .onelink-cap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .onelink-cap:nth-child(1) { animation-delay: 0.1s; }
+  .onelink-cap:nth-child(2) { animation-delay: 0.2s; }
+  .onelink-cap:nth-child(3) { animation-delay: 0.3s; }
+  .onelink-cap:nth-child(4) { animation-delay: 0.4s; }
+  .onelink-cap:nth-child(5) { animation-delay: 0.5s; }
+
+  .cap-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .cap-text {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .cap-text span {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* Right — phone mockup */
+  .onelink-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .phone-wrap {
+    position: relative;
+    width: 280px;
+    animation: float 7s ease-in-out infinite;
+  }
+
+  .phone-shell {
+    background: #0F0D0B;
+    border-radius: 40px;
+    padding: 16px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.08),
+      0 50px 100px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 80px;
+    height: 20px;
+    background: #0F0D0B;
+    border-radius: 0 0 14px 14px;
+    margin: 0 auto 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .phone-screen {
+    background: var(--cream);
+    border-radius: 28px;
+    overflow: hidden;
+    min-height: 500px;
+  }
+
+  /* Screen content — photographer public page */
+  .screen-header {
+    background: var(--ink);
+    padding: 20px 18px 16px;
+    text-align: center;
+  }
+
+  .screen-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3D3530, #2A2520);
+    margin: 0 auto 8px;
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .screen-name {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .screen-tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1px;
+  }
+
+  .screen-body {
+    padding: 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .screen-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .screen-card:hover { border-color: var(--gold); }
+
+  .screen-card-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .screen-card-text {}
+
+  .screen-card-title {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .screen-card-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--ink-muted);
+  }
+
+  .screen-card-arrow {
+    margin-right: auto;
+    color: var(--ink-muted);
+    font-size: 12px;
+  }
+
+  /* Glow behind phone */
+  .phone-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, transparent 65%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* URL bar above phone */
+  .phone-url-bar {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .url-dot { width: 6px; height: 6px; background: #25D366; border-radius: 50%; }
+
+  .url-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.3px;
+  }
+
+  .url-text .url-highlight { color: var(--gold); }
+
+  /* ─── CTA SECTION ─── */
+  .cta-section {
+    padding: 120px 60px;
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .cta-left {}
+
+  .cta-headline {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 3.5vw, 46px);
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .cta-headline .gold { color: var(--gold); }
+
+  .cta-body {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #25D366;
+    color: var(--white);
+    padding: 18px 36px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.25);
+  }
+
+  .cta-btn:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(37, 211, 102, 0.3);
+  }
+
+  .cta-note {
+    margin-top: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .cta-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cta-stat {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: border-color 0.3s;
+  }
+
+  .cta-stat:hover { border-color: var(--gold); }
+
+  .stat-icon { font-size: 28px; }
+
+  .stat-text {}
+
+  .stat-val {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--ink-muted);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--white);
+  }
+
+  .footer-logo span {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--gold);
+    margin-right: 10px;
+  }
+
+  .footer-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .footer-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+
+  /* Tablet — up to 1024px */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 32px; }
+
+    .hero-left { padding: 100px 40px 80px; }
+
+    .pain-section { padding: 80px 40px; }
+
+    .features-section { padding: 80px 40px; }
+
+    .quote-section { padding: 80px 40px; }
+
+    .cta-section { padding: 80px 40px; gap: 48px; }
+
+    footer { padding: 36px 40px; }
+
+    .onelink-section { padding: 80px 40px; }
+
+    .pain-grid { grid-template-columns: 1fr 1fr; }
+    .pain-card { border-top: 1px solid var(--border); }
+    .pain-card:nth-child(-n+2) { border-top: none; }
+    .pain-card:nth-child(odd) { border-left: none; }
+
+    .features-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Mobile — up to 768px */
+  @media (max-width: 768px) {
+    /* NAV */
+    nav {
+      padding: 16px 20px;
+    }
+    .nav-logo-en { display: none; }
+    .nav-dot { display: none; }
+    .nav-cta {
+      padding: 9px 16px;
+      font-size: 12px;
+    }
+
+    /* HERO */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-left {
+      padding: 90px 20px 48px;
+    }
+    .hero-right {
+      height: 320px;
+    }
+    .hero-card {
+      width: 220px;
+    }
+    .badge-1 { right: -10px; top: 10%; }
+    .badge-2 { left: -10px; bottom: 20%; }
+    .badge { padding: 8px 10px; }
+    .badge-label { font-size: 10px; }
+    .badge-val { font-size: 9px; }
+    .cta-group {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .btn-primary {
+      width: 100%;
+      justify-content: center;
+      padding: 15px 24px;
+    }
+
+    /* ONE LINK */
+    .onelink-section { padding: 64px 20px; }
+    .onelink-inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .onelink-headline { font-size: clamp(26px, 7vw, 38px); }
+    .phone-wrap { width: 240px; margin: 0 auto; }
+    .onelink-link-demo {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* PAIN */
+    .pain-section { padding: 64px 20px; }
+    .pain-grid {
+      grid-template-columns: 1fr;
+      border: none;
+      gap: 2px;
+    }
+    .pain-card {
+      border: 1px solid var(--border) !important;
+      border-radius: 2px;
+    }
+    .pain-card-num { font-size: 36px; }
+
+    /* FEATURES */
+    .features-section { padding: 64px 20px; }
+    .features-header {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .feature-item { padding: 36px 28px; }
+
+    /* QUOTE */
+    .quote-section { padding: 72px 20px; }
+    .quote-text { font-size: clamp(18px, 5vw, 26px); }
+
+    /* CTA */
+    .cta-section {
+      grid-template-columns: 1fr;
+      padding: 64px 20px;
+      gap: 40px;
+    }
+    .cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .cta-stat { padding: 20px 20px; }
+
+    /* FOOTER */
+    footer {
+      padding: 28px 20px;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+    .footer-dot { display: none; }
+  }
+
+  /* Small phones — up to 420px */
+  @media (max-width: 420px) {
+    .hero-left { padding: 80px 16px 40px; }
+    .hero-right { height: 280px; }
+    .hero-card { width: 190px; }
+    .badge { display: none; }
+
+    .onelink-section { padding: 56px 16px; }
+    .pain-section { padding: 56px 16px; }
+    .features-section { padding: 56px 16px; }
+    .quote-section { padding: 56px 16px; }
+    .cta-section { padding: 56px 16px; }
+    footer { padding: 24px 16px; }
+
+    .phone-wrap { width: 200px; }
+
+    .pain-card { padding: 28px 20px; }
+    .feature-item { padding: 28px 20px; }
+
+    .cta-stat { gap: 14px; }
+    .stat-icon { font-size: 22px; }
+    .stat-val { font-size: 18px; }
+
+    nav { padding: 14px 16px; }
+    .nav-logo-ar { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="nav-logo-ar">لقطة</span>
+    <div class="nav-dot"></div>
+    <span class="nav-logo-en">Laqta</span>
+  </div>
+  <a href="https://wa.me/201000000000?text=أنا%20مهتم%20بلقطة%20وعايز%20أعرف%20أكثر" class="nav-cta" target="_blank">ابدأ الآن</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">For Egyptian Photographers</span>
+    </div>
+
+    <h1 class="hero-headline">
+      ركّز على <span class="gold">شغلك</span><br>
+      واحنا نتكفل<br>
+      بالباقي
+    </h1>
+
+    <p class="hero-sub-en">Your craft deserves better than spreadsheets</p>
+
+    <p class="hero-body">
+      إدارة الحجوزات، تحصيل المدفوعات، تسليم الصور، وعرض أعمالك —<br>
+      <strong>كل ده في مكان واحد.</strong><br>
+      صُمم خصيصاً للمصور المصري.
+    </p>
+
+    <div class="cta-group">
+      <a href="https://wa.me/201000000000?text=أنا%20مهتم%20بلقطة%20وعايز%20أعرف%20أكثر" class="btn-primary" target="_blank">
+        <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span>تواصل معنا على واتساب</span>
+      </a>
+      <span class="btn-secondary-text">اعرف أكثر ↓</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <div class="hero-bg-text">لقطة</div>
+      <div class="hero-card">
+        <div class="hero-card-photo">
+          <!-- Simulated elegant photo placeholder -->
+          <svg width="100%" height="100%" viewBox="0 0 320 427" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;">
+            <rect width="320" height="427" fill="#1F1B18"/>
+            <circle cx="160" cy="160" r="80" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+            <circle cx="160" cy="160" r="120" fill="none" stroke="rgba(201,168,76,0.07)" stroke-width="1"/>
+            <!-- Silhouette suggestion -->
+            <ellipse cx="160" cy="140" rx="35" ry="42" fill="rgba(201,168,76,0.12)"/>
+            <ellipse cx="160" cy="220" rx="55" ry="60" fill="rgba(201,168,76,0.08)"/>
+            <!-- Light flare -->
+            <ellipse cx="200" cy="80" rx="40" ry="40" fill="rgba(201,168,76,0.06)"/>
+          </svg>
+          <div class="photo-overlay">
+            <div class="photo-tag">Portfolio</div>
+            <div class="photo-name">Ahmed Khaled Photography</div>
+          </div>
+        </div>
+
+        <!-- Floating badge 1 — Payment received -->
+        <div class="badge badge-1">
+          <span class="badge-icon">✅</span>
+          <div>
+            <div class="badge-label">تم استلام الدفعة</div>
+            <div class="badge-val">3,500 EGP · Instapay</div>
+          </div>
+        </div>
+
+        <!-- Floating badge 2 — Booking confirmed -->
+        <div class="badge badge-2">
+          <span class="badge-icon">📅</span>
+          <div>
+            <div class="badge-label">حجز مؤكد</div>
+            <div class="badge-val">جلسة تصوير — الجمعة ١٠ص</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ONE LINK SECTION -->
+<section class="onelink-section">
+  <div class="onelink-inner">
+
+    <div class="onelink-left">
+      <div class="onelink-eyebrow reveal">
+        <div class="onelink-eyebrow-line"></div>
+        <span class="onelink-eyebrow-text">Your Public Page</span>
+      </div>
+
+      <h2 class="onelink-headline reveal">
+        رابط <span class="gold">واحد</span> بس —<br>
+        وعميلك بيعرف كل حاجة
+      </h2>
+
+      <p class="onelink-sub reveal">One link. Zero back-and-forth.</p>
+
+      <p class="onelink-body reveal">
+        بدل ما تبعت ١٠ رسايل واتساب تشرح فيهم الأسعار والمواعيد —
+        <strong>ابعت رابط واحد بس.</strong>
+        عميلك يشوف شغلك، يعرف الأسعار، يختار الميعاد، ويحجز — كل ده من غير ما يبعتلك رسالة واحدة.
+      </p>
+
+      <div class="onelink-link-demo reveal">
+        <span class="link-icon">🔗</span>
+        <span class="link-text">laqta.app/<span style="opacity:0.6">ahmed-photography</span></span>
+        <span class="link-copy">نسخ</span>
+      </div>
+
+      <div class="onelink-caps">
+        <div class="onelink-cap">
+          <div class="cap-dot"></div>
+          <span class="cap-text"><span>شوف البورتفوليو</span> — أحسن أعمالك في عرض أنيق</span>
+        </div>
+        <div class="onelink-cap">
+          <div class="cap-dot"></div>
+          <span class="cap-text"><span>اعرف الأسعار</span> — باكدجات واضحة بدون سؤال</span>
+        </div>
+        <div class="onelink-cap">
+          <div class="cap-dot"></div>
+          <span class="cap-text"><span>شوف المواعيد المتاحة</span> — كالنادر حي ومحدّث</span>
+        </div>
+        <div class="onelink-cap">
+          <div class="cap-dot"></div>
+          <span class="cap-text"><span>احجز جلسة</span> — ودفع الأمانة على طول</span>
+        </div>
+        <div class="onelink-cap">
+          <div class="cap-dot"></div>
+          <span class="cap-text"><span>الأسئلة الشائعة</span> — إجابات جاهزة بدون ردود يدوية</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="onelink-right reveal">
+      <div class="phone-glow"></div>
+
+      <div class="phone-wrap">
+        <!-- URL bar -->
+        <div class="phone-url-bar">
+          <div class="url-dot"></div>
+          <span class="url-text">laqta.app/<span class="url-highlight">ahmed-photography</span></span>
+        </div>
+
+        <!-- Phone shell -->
+        <div class="phone-shell">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+
+            <!-- Photographer header -->
+            <div class="screen-header">
+              <div class="screen-avatar">📸</div>
+              <div class="screen-name">Ahmed Khaled Photography</div>
+              <div class="screen-tagline">Wedding · Portrait · Commercial</div>
+            </div>
+
+            <!-- Action cards -->
+            <div class="screen-body">
+
+              <div class="screen-card">
+                <div class="screen-card-icon">🖼️</div>
+                <div class="screen-card-text">
+                  <div class="screen-card-title">شوف أعمالي</div>
+                  <div class="screen-card-sub">Portfolio · 48 photos</div>
+                </div>
+                <div class="screen-card-arrow">←</div>
+              </div>
+
+              <div class="screen-card">
+                <div class="screen-card-icon">💰</div>
+                <div class="screen-card-text">
+                  <div class="screen-card-title">الأسعار والباكدجات</div>
+                  <div class="screen-card-sub">يبدأ من 2,500 EGP</div>
+                </div>
+                <div class="screen-card-arrow">←</div>
+              </div>
+
+              <div class="screen-card">
+                <div class="screen-card-icon">📅</div>
+                <div class="screen-card-text">
+                  <div class="screen-card-title">المواعيد المتاحة</div>
+                  <div class="screen-card-sub">أقرب ميعاد: الجمعة ١٠ص</div>
+                </div>
+                <div class="screen-card-arrow">←</div>
+              </div>
+
+              <div class="screen-card" style="border-color: var(--gold); background: var(--gold-pale);">
+                <div class="screen-card-icon" style="background: var(--gold); font-size:16px;">✨</div>
+                <div class="screen-card-text">
+                  <div class="screen-card-title" style="color:var(--ink);">احجز جلستك دلوقتي</div>
+                  <div class="screen-card-sub">بدون واتساب — بدون انتظار</div>
+                </div>
+                <div class="screen-card-arrow">←</div>
+              </div>
+
+              <div class="screen-card">
+                <div class="screen-card-icon">❓</div>
+                <div class="screen-card-text">
+                  <div class="screen-card-title">الأسئلة الشائعة</div>
+                  <div class="screen-card-sub">٨ إجابة جاهزة</div>
+                </div>
+                <div class="screen-card-arrow">←</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PAIN SECTION -->
+<section class="pain-section">
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span class="section-label-text">The Real Problem</span>
+  </div>
+
+  <h2 class="pain-headline reveal">بتعمل شغل من الآخر،<br>بس إدارته بتاخد منك أكثر</h2>
+  <p class="pain-sub reveal">Sound familiar?</p>
+
+  <div class="pain-grid">
+    <div class="pain-card reveal">
+      <div class="pain-card-num">01</div>
+      <div class="pain-card-icon">💸</div>
+      <div class="pain-card-title">فلوس ضايعة ومواعيد منسية</div>
+      <p class="pain-card-body">تحصيل الأمانات والمدفوعات عبر واتساب وكاش بيضيع وقتك وبيخلي حسابات آخر الشهر فوضى.</p>
+    </div>
+    <div class="pain-card reveal">
+      <div class="pain-card-num">02</div>
+      <div class="pain-card-icon">📆</div>
+      <div class="pain-card-title">تعارض في المواعيد</div>
+      <p class="pain-card-body">حجزين في نفس اليوم، ونسيان مواعيد عملاء، بيضر بسمعتك وبيكلفك شغل جديد.</p>
+    </div>
+    <div class="pain-card reveal">
+      <div class="pain-card-num">03</div>
+      <div class="pain-card-icon">📁</div>
+      <div class="pain-card-title">تسليم الصور مش محترم</div>
+      <p class="pain-card-body">إرسال روابط WeTransfer أو Google Drive على واتساب مش بيعكس احترافية شغلك الجميل.</p>
+    </div>
+    <div class="pain-card reveal">
+      <div class="pain-card-num">04</div>
+      <div class="pain-card-icon">🎨</div>
+      <div class="pain-card-title">البورتفوليو مش بيبيع</div>
+      <p class="pain-card-body">صورك تستاهل أكتر من بوست على إنستجرام. محتاج مكان يعرض شغلك ويحول المشاهدين لعملاء.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features-section">
+  <div class="features-header">
+    <div>
+      <div class="section-label reveal">
+        <div class="section-label-line"></div>
+        <span class="section-label-text">The Solution</span>
+      </div>
+      <h2 class="features-headline reveal">لقطة — كل اللي<br>محتاجه في مكان واحد</h2>
+    </div>
+    <p class="features-desc reveal">
+      مش مجرد أداة. لقطة هي الشريك الإداري اللي كل مصور مصري كان محتاجه. صُمم عشان يتناسب مع طريقة شغلك، ويدعم طرق الدفع المحلية.
+    </p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-item reveal">
+      <span class="feature-num">— 01</span>
+      <span class="feature-icon">💳</span>
+      <div class="feature-title">تحصيل المدفوعات بسهولة</div>
+      <p class="feature-body">اقبل الدفع عبر Instapay, Vodafone Cash, وفودافون كاش. أمانات وإيصالات تلقائية بدون أي متابعة يدوية.</p>
+      <span class="feature-tag">Instapay · Vodafone Cash</span>
+    </div>
+    <div class="feature-item reveal">
+      <span class="feature-num">— 02</span>
+      <span class="feature-icon">📅</span>
+      <div class="feature-title">إدارة الحجوزات والكالنادر</div>
+      <p class="feature-body">كالنادر ذكي بيمنع تعارض المواعيد، بيبعت تذكيرات للعملاء، وبيخليك دايمًا منظم ومحترف.</p>
+      <span class="feature-tag">Zero Double-Bookings</span>
+    </div>
+    <div class="feature-item reveal">
+      <span class="feature-num">— 03</span>
+      <span class="feature-icon">🖼️</span>
+      <div class="feature-title">تسليم الصور باحترافية</div>
+      <p class="feature-body">جاليري خاص لكل عميل بتبعتهولو رابط أنيق. يختاروا صورهم، يحملوها، وانت تتابع كل ده بسهولة.</p>
+      <span class="feature-tag">Branded Gallery</span>
+    </div>
+    <div class="feature-item reveal">
+      <span class="feature-num">— 04</span>
+      <span class="feature-icon">✨</span>
+      <div class="feature-title">بورتفوليو يبيع عنك</div>
+      <p class="feature-body">صفحة بورتفوليو احترافية بتعرض أحسن شغلك وبتحول الزوار لعملاء حقيقيين بشكل أوتوماتيك.</p>
+      <span class="feature-tag">Convert Visitors</span>
+    </div>
+    <div class="feature-item reveal">
+      <span class="feature-num">— 05</span>
+      <span class="feature-icon">📊</span>
+      <div class="feature-title">تقارير وأرباح واضحة</div>
+      <p class="feature-body">شوف أرباحك الشهرية، أكتر عملاء راجعين، وأحسن مواسم شغلك — كل ده في داشبورد بسيط.</p>
+      <span class="feature-tag">Smart Reports</span>
+    </div>
+    <div class="feature-item reveal">
+      <span class="feature-num">— 06</span>
+      <span class="feature-icon">🇪🇬</span>
+      <div class="feature-title">صُمم للسوق المصري</div>
+      <p class="feature-body">عربي بالكامل، بيدعم الجنيه المصري، وطرق الدفع المحلية. مش ترجمة لأداة أجنبية — ده شغلنا من الأساس.</p>
+      <span class="feature-tag">100% Local</span>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <p class="quote-text reveal">
+    "شغلك يستاهل أحسن من واتساب وجداول إكسيل —<br>
+    <span class="highlight">ركّز على اللقطة المثالية، واحنا نتكفل بالباقي.</span>"
+  </p>
+  <p class="quote-sub reveal">لقطة · Laqta — Built for Egyptian Photographers</p>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-left">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Join Early Access</span>
+    </div>
+    <h2 class="cta-headline reveal">
+      كن من أوائل<br>
+      المصورين على <span class="gold">لقطة</span>
+    </h2>
+    <p class="cta-body reveal">
+      بنبني لقطة دلوقتي — وعايزين نسمع منك. تواصل معنا على واتساب وقولنا أكتر حاجة بتتعبك في إدارة شغلك. أوائل المنضمين هيحصلوا على سعر خاص وتأثير مباشر على الفيتشرز.
+    </p>
+    <a href="https://wa.me/201000000000?text=أنا%20مصور%20ومهتم%20بلقطة%20-%20عايز%20أعرف%20أكثر" class="cta-btn reveal" target="_blank">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      ابعتلنا على واتساب دلوقتي
+    </a>
+    <p class="cta-note reveal">🔒 مفيش التزامات — بس محادثة بسيطة</p>
+  </div>
+
+  <div class="cta-right">
+    <div class="cta-stat reveal">
+      <span class="stat-icon">⚡</span>
+      <div class="stat-text">
+        <div class="stat-val">Early Access</div>
+        <div class="stat-label">سعر خاص لأول ١٠٠ مصور</div>
+      </div>
+    </div>
+    <div class="cta-stat reveal">
+      <span class="stat-icon">🇪🇬</span>
+      <div class="stat-text">
+        <div class="stat-val">100% محلي</div>
+        <div class="stat-label">Instapay · فودافون كاش · جنيه مصري</div>
+      </div>
+    </div>
+    <div class="cta-stat reveal">
+      <span class="stat-icon">🎯</span>
+      <div class="stat-text">
+        <div class="stat-val">صُمم معاك</div>
+        <div class="stat-label">رأيك بيشكّل المنتج من اليوم الأول</div>
+      </div>
+    </div>
+    <div class="cta-stat reveal">
+      <span class="stat-icon">📸</span>
+      <div class="stat-text">
+        <div class="stat-val">للمصورين فقط</div>
+        <div class="stat-label">أفراح · بورتريه · كوميرشيال</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    لقطة <span>· Laqta</span>
+  </div>
+  <div class="footer-dot"></div>
+  <p class="footer-text">Made with ❤️ in Egypt — For Egyptian Photographers</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // Stagger siblings in same parent
+  document.querySelectorAll('.pain-grid, .features-grid, .cta-right').forEach(grid => {
+    const children = grid.querySelectorAll('.reveal');
+    children.forEach((child, i) => {
+      child.style.transitionDelay = `${i * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>
